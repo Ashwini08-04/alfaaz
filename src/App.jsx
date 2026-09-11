@@ -12,11 +12,15 @@ import Collections from "./Collections";
 import GaneshSpace from "./PrivateSpace";
 import PrivateWrite from "./PrivateWrite";
 import Profile from "./Profile";
+import Password from "./Password";
 
 function App() {
   const location = useLocation();
+  const token = localStorage.getItem("alfaaz_token");
 
-  if (location.pathname === "/") return <Landing />;
+  if (!token) return <Password />;
+
+  if (location.pathname === "/") return <Home />;
   if (location.pathname === "/home") return <Home />;
   if (location.pathname === "/write") return <Write />;
   if (location.pathname === "/alfaaz") return <Alfaaz />;
@@ -30,7 +34,7 @@ function App() {
   if (location.pathname === "/private/write") return <PrivateWrite />;
   if (location.pathname === "/private") return <GaneshSpace />;
 
-  return <Landing />;
+  return <Home />;
 }
 
 export default App;

@@ -3,6 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const privateAlfaazRoutes = require("./routes/privateAlfaazRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Alfaaz Backend is Running ✨" });
 });
 
+app.use("/api/auth", authRoutes);
 app.use("/api/alfaaz", alfaazRoutes);
 app.use("/api/memories", memoryRoutes);
 app.use("/api/private-alfaaz", privateAlfaazRoutes);
