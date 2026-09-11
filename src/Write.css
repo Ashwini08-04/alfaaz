@@ -1,0 +1,510 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Mono:wght@400&family=Poppins:wght@300;400;500&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+.write-page {
+  min-height: 100vh;
+  padding: 28px 7%;
+  color: #302921;
+  overflow: hidden;
+  position: relative;
+  background:
+    radial-gradient(circle at 50% 5%, #fffaf2 0, transparent 35%),
+    radial-gradient(circle at 10% 75%, #e5d0bd 0, transparent 28%),
+    #eee3d3;
+}
+
+.write-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .2;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 5px,
+    rgba(70,50,35,.025) 6px
+  );
+}
+
+.flower-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.flower-field span {
+  position: absolute;
+  color: #9f826b;
+  opacity: .2;
+  font-size: 20px;
+  animation: flowerFloat 6s ease-in-out infinite;
+}
+
+.flower-field span:nth-child(1) { left: 4%; top: 12%; }
+.flower-field span:nth-child(2) { left: 12%; top: 32%; font-size: 12px; }
+.flower-field span:nth-child(3) { left: 5%; top: 70%; }
+.flower-field span:nth-child(4) { left: 18%; top: 82%; }
+.flower-field span:nth-child(5) { right: 5%; top: 16%; }
+.flower-field span:nth-child(6) { right: 12%; top: 35%; font-size: 14px; }
+.flower-field span:nth-child(7) { right: 4%; top: 62%; }
+.flower-field span:nth-child(8) { right: 15%; top: 80%; }
+.flower-field span:nth-child(9) { left: 27%; top: 8%; font-size: 11px; }
+.flower-field span:nth-child(10) { right: 27%; top: 10%; }
+.flower-field span:nth-child(11) { left: 8%; top: 52%; }
+.flower-field span:nth-child(12) { right: 8%; top: 48%; }
+.flower-field span:nth-child(13) { left: 24%; bottom: 12%; }
+.flower-field span:nth-child(14) { right: 25%; bottom: 15%; }
+.flower-field span:nth-child(15) { left: 2%; top: 88%; }
+.flower-field span:nth-child(16) { right: 2%; top: 88%; }
+.flower-field span:nth-child(17) { left: 32%; top: 25%; font-size: 12px; }
+.flower-field span:nth-child(18) { right: 32%; top: 27%; }
+.flower-field span:nth-child(19) { left: 15%; top: 60%; }
+.flower-field span:nth-child(20) { right: 18%; top: 57%; }
+.flower-field span:nth-child(21) { left: 36%; bottom: 7%; }
+.flower-field span:nth-child(22) { right: 36%; bottom: 9%; }
+.flower-field span:nth-child(23) { left: 40%; top: 4%; }
+.flower-field span:nth-child(24) { right: 40%; top: 5%; }
+
+@keyframes flowerFloat {
+  50% {
+    transform: translateY(-8px) rotate(8deg);
+    opacity: .32;
+  }
+}
+
+.write-header,
+.writing-room,
+.write-footer {
+  position: relative;
+  z-index: 2;
+}
+
+.write-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.write-back,
+.write-save {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 17px;
+  border: 1px solid #bcae9d;
+  border-radius: 30px;
+  background: rgba(255,255,255,.2);
+  color: #40372f;
+  font: 10px "Poppins", sans-serif;
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+.write-save {
+  background: #302921;
+  border-color: #302921;
+  color: #fff8ef;
+}
+
+.write-back:hover,
+.write-save:hover {
+  transform: translateY(-3px);
+}
+
+.write-logo {
+  text-align: center;
+}
+
+.write-logo span {
+  display: block;
+  font: 500 29px "Cormorant Garamond", serif;
+  letter-spacing: 6px;
+}
+
+.write-logo small {
+  color: #978574;
+  font: 7px "DM Mono", monospace;
+  letter-spacing: 2px;
+}
+
+.writing-room {
+  max-width: 900px;
+  margin: 65px auto 0;
+}
+
+.room-intro {
+  text-align: center;
+}
+
+.feather {
+  width: 46px;
+  height: 46px;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid #c4b29f;
+  border-radius: 50%;
+  color: #806c59;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-6px) rotate(-5deg);
+  }
+}
+
+.room-intro > span {
+  display: block;
+  margin: 17px 0 13px;
+  color: #97816d;
+  font: 7px "DM Mono", monospace;
+  letter-spacing: 3px;
+}
+
+.room-intro h1 {
+  margin: 0;
+  font: 500 clamp(50px,7vw,80px)/.84 "Cormorant Garamond", serif;
+  letter-spacing: -2px;
+}
+
+.room-intro h1 em {
+  color: #927864;
+  font-weight: 400;
+}
+
+.room-intro p {
+  margin: 21px 0 0;
+  color: #766b60;
+  font: 10px/1.8 "Poppins", sans-serif;
+}
+
+.type-selector {
+  margin: 43px 0 16px;
+  text-align: center;
+}
+
+.type-selector small {
+  color: #9a8774;
+  font: 7px "DM Mono", monospace;
+  letter-spacing: 3px;
+}
+
+.type-selector div {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.type-selector button {
+  padding: 8px 17px;
+  border: 1px solid #c7b7a5;
+  border-radius: 30px;
+  background: rgba(255,255,255,.25);
+  color: #77695b;
+  font: 9px "Poppins", sans-serif;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.type-selector button:hover,
+.type-selector button.selected {
+  background: #302921;
+  border-color: #302921;
+  color: #fff8ef;
+}
+
+.paper {
+  position: relative;
+  margin-top: 24px;
+  padding: 25px 38px 17px;
+  background: rgba(255,250,243,.9);
+  border: 1px solid rgba(80,60,40,.16);
+  box-shadow: 0 25px 70px rgba(60,40,20,.11);
+  animation: paperIn .8s ease both;
+}
+
+@keyframes paperIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.paper-decoration {
+  position: absolute;
+  top: 20px;
+  right: 32px;
+  color: #a88c73;
+  opacity: .5;
+}
+
+.paper-top,
+.paper-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.paper-top {
+  color: #9a8774;
+  font: 7px "DM Mono", monospace;
+  letter-spacing: 2px;
+}
+
+.paper-top svg {
+  color: #aa8f76;
+}
+
+.paper input,
+.paper textarea {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #302921;
+  font-family: "Cormorant Garamond", serif;
+}
+
+.paper input {
+  margin-top: 35px;
+  padding-right: 30px;
+  font-size: 34px;
+}
+
+.paper input::placeholder,
+.paper textarea::placeholder {
+  color: #b1a396;
+}
+
+.paper-line {
+  height: 1px;
+  margin: 10px 0;
+  background: #d8cbbb;
+}
+
+.paper textarea {
+  min-height: 330px;
+  padding-top: 18px;
+  resize: vertical;
+  font-size: 20px;
+  line-height: 1.85;
+}
+
+.paper-bottom {
+  padding-top: 12px;
+  border-top: 1px solid #ded2c5;
+  color: #a08e7c;
+  font: 7px "DM Mono", monospace;
+  letter-spacing: 1px;
+}
+
+.paper-bottom button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: none;
+  color: #927d69;
+  font: 8px "Poppins", sans-serif;
+  cursor: pointer;
+}
+
+.prompt-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 650px;
+  margin: 25px auto 0;
+  padding: 15px 18px;
+  border: 1px solid rgba(120,90,65,.16);
+  background: rgba(255,250,243,.38);
+}
+
+.prompt-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid #cbb9a6;
+  border-radius: 50%;
+  color: #927965;
+}
+
+.prompt-card small {
+  color: #9a8774;
+  font: 7px "DM Mono", monospace;
+  letter-spacing: 2px;
+}
+
+.prompt-card p {
+  margin: 4px 0 0;
+  color: #64584d;
+  font: 13px "Cormorant Garamond", serif;
+}
+
+.prompt-card button {
+  margin-left: auto;
+  white-space: nowrap;
+  border: 0;
+  background: none;
+  color: #806b57;
+  font: 8px "Poppins", sans-serif;
+  cursor: pointer;
+}
+
+.writing-tip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 30px auto;
+  text-align: center;
+}
+
+.writing-tip span {
+  color: #9a8067;
+  font-size: 14px;
+}
+
+.writing-tip p {
+  margin: 0;
+  color: #8a7968;
+  font: italic 13px/1.5 "Cormorant Garamond", serif;
+}
+
+.write-footer {
+  margin-top: 45px;
+  padding: 20px 0;
+  text-align: center;
+  border-top: 1px solid rgba(100,80,60,.15);
+}
+
+.write-footer span {
+  font: 17px "Cormorant Garamond", serif;
+  letter-spacing: 5px;
+}
+
+.write-footer small {
+  display: block;
+  margin-top: 4px;
+  color: #978574;
+  font: 7px "DM Mono", monospace;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 600px) {
+  .write-page {
+    padding: 18px 5%;
+  }
+
+  .write-header {
+    gap: 8px;
+  }
+
+  .write-logo span {
+    font-size: 23px;
+    letter-spacing: 4px;
+  }
+
+  .write-logo small {
+    display: none;
+  }
+
+  .write-back,
+  .write-save {
+    padding: 10px 12px;
+    font-size: 8px;
+  }
+
+  .write-back span {
+    display: none;
+  }
+
+  .write-save {
+    gap: 6px;
+  }
+
+  .writing-room {
+    margin-top: 52px;
+  }
+
+  .room-intro h1 {
+    font-size: 50px;
+  }
+
+  .room-intro p {
+    font-size: 9px;
+  }
+
+  .type-selector {
+    margin-top: 35px;
+  }
+
+  .type-selector div {
+    gap: 6px;
+  }
+
+  .type-selector button {
+    padding: 8px 12px;
+    font-size: 8px;
+  }
+
+  .paper {
+    margin-top: 20px;
+    padding: 22px 18px 15px;
+  }
+
+  .paper-decoration {
+    right: 17px;
+  }
+
+  .paper input {
+    margin-top: 32px;
+    font-size: 27px;
+  }
+
+  .paper textarea {
+    min-height: 300px;
+    font-size: 18px;
+    line-height: 1.8;
+  }
+
+  .prompt-card {
+    gap: 10px;
+    padding: 13px;
+  }
+
+  .prompt-card p {
+    font-size: 12px;
+  }
+
+  .prompt-card button {
+    font-size: 7px;
+  }
+
+  .writing-tip {
+    gap: 8px;
+  }
+
+  .writing-tip p {
+    font-size: 12px;
+  }
+
+  .flower-field span {
+    font-size: 15px;
+  }
+}

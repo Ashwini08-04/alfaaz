@@ -1,0 +1,262 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Poppins:wght@300;400;500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #171512;
+}
+
+/* Main page */
+.welcome {
+  min-height: 100vh;
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #29251f;
+  background:
+    radial-gradient(circle at 50% 45%, #f4ecdf 0%, #e8ded0 55%, #d8cbbb 100%);
+}
+
+/* Soft ambient glow */
+.glow {
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.glow-one {
+  background: #b99d7d;
+  top: -150px;
+  left: -120px;
+}
+
+.glow-two {
+  background: #c7b5a0;
+  right: -130px;
+  bottom: -130px;
+}
+
+/* Floating stars */
+.stars {
+  position: absolute;
+  top: 14%;
+  left: 10%;
+  color: rgba(72, 59, 45, 0.35);
+  font-size: 15px;
+  letter-spacing: 5px;
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Center content */
+.intro {
+  position: relative;
+  z-index: 20;
+  text-align: center;
+  color: #29251f;
+  transition: 0.9s ease;
+}
+
+.eyebrow {
+  display: block;
+  color: #75695c;
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.intro h1 {
+  font-family: "Cormorant Garamond", serif;
+  color: #29251f;
+  font-size: clamp(70px, 11vw, 135px);
+  font-weight: 500;
+  line-height: 0.85;
+  letter-spacing: 9px;
+  margin: 0 0 25px;
+  text-shadow: 0 8px 25px rgba(70, 55, 40, 0.12);
+}
+
+.intro p {
+  color: #62594f;
+  font-size: 14px;
+  line-height: 1.8;
+  letter-spacing: 1px;
+}
+
+/* Enter button */
+button {
+  margin-top: 35px;
+  padding: 13px 28px;
+  border: 1px solid #9c8c79;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.25);
+  color: #3b342d;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: 0.35s ease;
+  backdrop-filter: blur(8px);
+}
+
+button:hover {
+  background: #29251f;
+  color: #f5eee5;
+  border-color: #29251f;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(50, 40, 30, 0.18);
+}
+
+button span {
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+/* Book pages */
+.book {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 10;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ded2c2 0%,
+      #f5ede2 48%,
+      #ddd0bf 100%
+    );
+
+  box-shadow:
+    inset 0 0 45px rgba(75, 55, 35, 0.12);
+
+  transition:
+    transform 1.6s cubic-bezier(0.77, 0, 0.18, 1),
+    box-shadow 1.6s ease;
+}
+
+.book-left {
+  left: 0;
+  transform-origin: left center;
+}
+
+.book-right {
+  right: 0;
+  transform-origin: right center;
+
+  background:
+    linear-gradient(
+      270deg,
+      #ded2c2 0%,
+      #f5ede2 48%,
+      #ddd0bf 100%
+    );
+}
+
+/* Subtle paper lines */
+.paper-texture {
+  position: absolute;
+  inset: 0;
+  opacity: 0.22;
+
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 5px,
+      rgba(80, 60, 40, 0.025) 6px
+    );
+}
+
+/* Center book spine */
+.book-spine {
+  position: absolute;
+  z-index: 11;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  transform: translateX(-50%);
+
+  background: rgba(76, 61, 45, 0.25);
+
+  box-shadow:
+    0 0 18px rgba(70, 50, 30, 0.18);
+
+  transition: 0.8s ease;
+}
+
+/* Opening animation */
+.opened .book-left {
+  transform: perspective(1400px) rotateY(-105deg);
+
+  box-shadow:
+    inset -30px 0 45px rgba(40, 30, 20, 0.2);
+}
+
+.opened .book-right {
+  transform: perspective(1400px) rotateY(105deg);
+
+  box-shadow:
+    inset 30px 0 45px rgba(40, 30, 20, 0.2);
+}
+
+.opened .book-spine {
+  opacity: 0;
+}
+
+.opened .intro {
+  transform: scale(1.08);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .eyebrow {
+    font-size: 9px;
+    letter-spacing: 3px;
+  }
+
+  .intro h1 {
+    font-size: 72px;
+    letter-spacing: 6px;
+  }
+
+  .intro p {
+    font-size: 12px;
+  }
+
+  button {
+    padding: 12px 23px;
+  }
+
+  .stars {
+    top: 12%;
+    left: 5%;
+    font-size: 11px;
+  }
+
+  .glow {
+    width: 250px;
+    height: 250px;
+  }
+}

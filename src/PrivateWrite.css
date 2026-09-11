@@ -1,0 +1,218 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap");
+
+.private-write {
+  min-height: 100vh;
+  padding: 28px 7%;
+  box-sizing: border-box;
+  background:
+    radial-gradient(circle at 50% 35%, #fffdf9, #faf3ea 60%, #f5eadd);
+  color: #44372f;
+  font-family: "Inter", sans-serif;
+}
+
+.private-write-header {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.private-write-header button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  color: #796b60;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.private-write-header button:hover {
+  color: #9c734d;
+}
+
+.private-write-header > div {
+  text-align: center;
+}
+
+.private-write-header > div span {
+  display: block;
+  font-family: "DM Mono", monospace;
+  font-size: 14px;
+  letter-spacing: 4px;
+}
+
+.private-write-header small {
+  display: block;
+  margin-top: 5px;
+  color: #a4917e;
+  font-family: "DM Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+
+.private-write-header > svg {
+  color: #ad8558;
+}
+
+.private-write-content {
+  width: min(700px, 100%);
+  margin: 90px auto 70px;
+  text-align: center;
+}
+
+.private-label {
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: #a58b72;
+}
+
+.private-write-content h1 {
+  margin: 18px 0 12px;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(45px, 6vw, 68px);
+  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -2px;
+}
+
+.private-write-content h1 em {
+  color: #a97957;
+  font-weight: 500;
+}
+
+.private-subtitle {
+  margin: 0 0 38px;
+  color: #89786b;
+  font-size: 13px;
+}
+
+.private-form {
+  padding: 30px;
+  text-align: left;
+  background: rgba(255, 252, 247, 0.72);
+  border: 1px solid rgba(166, 124, 78, 0.18);
+  box-shadow: 0 20px 55px rgba(91, 66, 44, 0.06);
+}
+
+.private-type {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.private-type button {
+  padding: 8px 13px;
+  border: 1px solid rgba(166, 124, 78, 0.18);
+  background: transparent;
+  color: #8b796a;
+  cursor: pointer;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  transition: 0.25s ease;
+}
+
+.private-type button:hover,
+.private-type button.active {
+  background: #8f6b4e;
+  border-color: #8f6b4e;
+  color: #fffaf3;
+}
+
+.private-form input,
+.private-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(166, 124, 78, 0.16);
+  outline: none;
+  background: rgba(255, 255, 255, 0.42);
+  color: #4c4038;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  transition: 0.25s ease;
+}
+
+.private-form input {
+  height: 48px;
+  padding: 0 15px;
+  margin-bottom: 14px;
+}
+
+.private-form textarea {
+  padding: 15px;
+  resize: vertical;
+  line-height: 1.8;
+}
+
+.private-form input:focus,
+.private-form textarea:focus {
+  border-color: rgba(166, 124, 78, 0.45);
+  background: #fffdf9;
+}
+
+.private-form input::placeholder,
+.private-form textarea::placeholder {
+  color: #b09d8b;
+}
+
+.private-save {
+  margin-top: 18px;
+  padding: 13px 18px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid #a9815b;
+  background: #8f6b4e;
+  color: #fffaf3;
+  cursor: pointer;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  transition: 0.3s ease;
+}
+
+.private-save:hover {
+  background: #76563f;
+  transform: translateY(-2px);
+}
+
+.private-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.private-message {
+  margin: 15px 0 0;
+  color: #9a7756;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 600px) {
+  .private-write {
+    padding: 22px 5%;
+  }
+
+  .private-write-content {
+    margin-top: 65px;
+  }
+
+  .private-write-content h1 {
+    font-size: 44px;
+  }
+
+  .private-form {
+    padding: 20px;
+  }
+
+  .private-write-header > svg {
+    display: none;
+  }
+}
