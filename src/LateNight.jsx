@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import "./LateNight.css";
 
-const API = "http://localhost:5000/api/alfaaz";
+const API = "https://alfaaz-backend-hhts.onrender.com/api/alfaaz";
 
 function LateNight() {
   const navigate = useNavigate();

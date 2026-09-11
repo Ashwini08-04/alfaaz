@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import "./Favorites.css";
 
-const API = "http://localhost:5000/api/alfaaz";
+const API = "https://alfaaz-backend-hhts.onrender.com/api/alfaaz";
 
 function Favorites() {
   const navigate = useNavigate();

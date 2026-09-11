@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import "./Memories.css";
 
-const API = "http://localhost:5000/api/memories";
+const API = "https://alfaaz-backend-hhts.onrender.com/api/memories";
 
 function Memories() {
   const navigate = useNavigate();

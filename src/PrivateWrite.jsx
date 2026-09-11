@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, LockKeyhole, Send } from "lucide-react";
 import "./PrivateWrite.css";
 
-const API = "http://localhost:5000/api/private-alfaaz";
+const API = "https://alfaaz-backend-hhts.onrender.com/api/private-alfaaz";
 
 function PrivateWrite() {
   const navigate = useNavigate();

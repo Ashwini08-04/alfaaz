@@ -27,7 +27,7 @@ function Alfaaz() {
   // Fetch Alfaaz from MongoDB
   const fetchEntries = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/alfaaz");
+      const response = await fetch("https://alfaaz-backend-hhts.onrender.com/api/alfaaz");
 
       if (!response.ok) {
         throw new Error("Failed to fetch Alfaaz");
@@ -70,7 +70,7 @@ function Alfaaz() {
   const toggleFavorite = async (id, favorite) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/alfaaz/${id}`,
+        `https://alfaaz-backend-hhts.onrender.com/api/alfaaz/${id}`,
         {
           method: "PUT",
           headers: {
@@ -110,7 +110,7 @@ function Alfaaz() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/alfaaz/${id}`,
+        `https://alfaaz-backend-hhts.onrender.com/api/alfaaz/${id}`,
         {
           method: "DELETE"
         }

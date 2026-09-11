@@ -11,8 +11,8 @@ import {
 } from "lucide-react";
 import "./Calendar.css";
 
-const ALFAAZ_API = "http://localhost:5000/api/alfaaz";
-const MEMORY_API = "http://localhost:5000/api/memories";
+const ALFAAZ_API = "https://alfaaz-backend-hhts.onrender.com/api/alfaaz";
+const MEMORY_API = "https://alfaaz-backend-hhts.onrender.com/api/memories";
 
 function Calendar() {
   const navigate = useNavigate();

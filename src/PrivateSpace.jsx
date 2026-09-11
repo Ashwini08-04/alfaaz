@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import "./PrivateSpace.css";
 
-const API = "http://localhost:5000/api/private-alfaaz";
+const API = "https://alfaaz-backend-hhts.onrender.com/api/private-alfaaz";
 
 function GaneshSpace() {
   const navigate = useNavigate();

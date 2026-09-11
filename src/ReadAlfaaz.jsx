@@ -28,7 +28,7 @@ function ReadAlfaaz() {
     const loadEntry = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/alfaaz/${selected._id}`
+          `https://alfaaz-backend-hhts.onrender.com/api/alfaaz/${selected._id}`
         );
 
         if (!response.ok) throw new Error("Entry not found");
@@ -51,7 +51,7 @@ function ReadAlfaaz() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/alfaaz/${entry._id}`,
+        `https://alfaaz-backend-hhts.onrender.com/api/alfaaz/${entry._id}`,
         {
           method: "PUT",
           headers: {
