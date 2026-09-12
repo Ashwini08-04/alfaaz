@@ -13,7 +13,6 @@ import {
 import "./LateNight.css";
 import apiRequest from "./api";
 
-
 function LateNight() {
   const navigate = useNavigate();
 
@@ -30,16 +29,17 @@ function LateNight() {
   });
 
   const fetchThoughts = async () => {
-  try {
-    const data = await apiRequest("/alfaaz");
-    setThoughts(data.filter((item) => item.lateNight));
-  } catch (error) {
-    console.error(error);
-    alert("Could not load late night thoughts.");
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      const data = await apiRequest("/alfaaz");
+      setThoughts(data.filter((item) => item.lateNight));
+    } catch (error) {
+      console.error(error);
+      alert("Could not load late night thoughts.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchThoughts();
   }, []);
@@ -59,37 +59,52 @@ function LateNight() {
     });
   };
 
-  const newThought = await apiRequest("/alfaaz", {
-  method: "POST",
-  body: JSON.stringify({
-    type: "Thought",
-    title: form.title,
-    content: form.content,
-    lateNight: true
-  })
-});
+  const addThought = async (e) => {
+    e.preventDefault();
 
-setThoughts((prev) => [newThought, ...prev]);
-closeForm();
+    if (!form.content.trim()) return;
 
- const deleteThought = async (id) => {
-  if (!window.confirm("Delete this thought permanently?")) return;
+    setSaving(true);
 
-  try {
-    await apiRequest(`/alfaaz/${id}`, {
-      method: "DELETE"
-    });
+    try {
+      const newThought = await apiRequest("/alfaaz", {
+        method: "POST",
+        body: JSON.stringify({
+          type: "Thought",
+          title: form.title || "Late Night Thought",
+          content: form.content,
+          lateNight: true
+        })
+      });
 
-    setThoughts((prev) =>
-      prev.filter((item) => item._id !== id)
-    );
+      setThoughts((prev) => [newThought, ...prev]);
+      closeForm();
+    } catch (error) {
+      console.error(error);
+      alert("Could not save thought.");
+    } finally {
+      setSaving(false);
+    }
+  };
 
-    setSelected(null);
-  } catch (error) {
-    console.error(error);
-    alert("Could not delete thought.");
-  }
-};
+  const deleteThought = async (id) => {
+    if (!window.confirm("Delete this thought permanently?")) return;
+
+    try {
+      await apiRequest(`/alfaaz/${id}`, {
+        method: "DELETE"
+      });
+
+      setThoughts((prev) =>
+        prev.filter((item) => item._id !== id)
+      );
+
+      setSelected(null);
+    } catch (error) {
+      console.error(error);
+      alert("Could not delete thought.");
+    }
+  };
 
   const surpriseMe = () => {
     if (!thoughts.length) return;
@@ -278,11 +293,13 @@ closeForm();
 
       <div className="late-night-bottom">
         <span>☾</span>
+
         <p>
           Some thoughts only appear
           <br />
           when everything else goes quiet.
         </p>
+
         <span>✦</span>
       </div>
 
@@ -362,7 +379,9 @@ closeForm();
             <p>{selected.content}</p>
 
             <div className="late-night-view-footer">
-              <span>— Ganesh · {formatTime(selected.createdAt)}</span>
+              <span>
+                — Ganesh · {formatTime(selected.createdAt)}
+              </span>
 
               <button
                 onClick={() => deleteThought(selected._id)}
