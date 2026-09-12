@@ -12,10 +12,10 @@ const login = (req, res) => {
   }
 
   const token = jwt.sign(
-    { access: "ganesh" },
-    process.env.JWT_SECRET,
-    { expiresIn: "7d" }
-  );
+  { access: "ganesh" },
+  process.env.JWT_SECRET,
+  { expiresIn: "2d" }
+);
 
   res.json({ token });
 };
