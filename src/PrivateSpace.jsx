@@ -3,15 +3,13 @@ import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
   ArrowRight,
-  Heart,
   Sparkles,
   LockKeyhole,
   Trash2,
   X
 } from "lucide-react";
 import "./PrivateSpace.css";
-
-const API = "https://alfaaz-backend-hhts.onrender.com/api/private-alfaaz";
+import apiRequest from "./api";
 
 function GaneshSpace() {
   const navigate = useNavigate();
@@ -21,8 +19,7 @@ function GaneshSpace() {
 
   const fetchEntries = async () => {
     try {
-      const response = await fetch(API);
-      const data = await response.json();
+      const data = await apiRequest("/private-alfaaz");
       setEntries(data);
     } catch (error) {
       console.error(error);
@@ -35,14 +32,18 @@ function GaneshSpace() {
 
   const deleteEntry = async (id) => {
     try {
-      await fetch(`${API}/${id}`, {
+      await apiRequest(`/private-alfaaz/${id}`, {
         method: "DELETE"
       });
 
-      setEntries((prev) => prev.filter((item) => item._id !== id));
+      setEntries((prev) =>
+        prev.filter((item) => item._id !== id)
+      );
+
       setSelected(null);
     } catch (error) {
       console.error(error);
+      alert("Could not delete private Alfaaz.");
     }
   };
 
@@ -172,9 +173,7 @@ function GaneshSpace() {
               <X size={18} />
             </button>
 
-            <span>
-              {selected.type} · PRIVATE
-            </span>
+            <span>{selected.type} · PRIVATE</span>
 
             <div className="private-modal-lock">
               <LockKeyhole size={18} />
