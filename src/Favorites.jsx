@@ -10,8 +10,9 @@ import {
   BookOpen
 } from "lucide-react";
 import "./Favorites.css";
+import apiRequest from "./api";
 
-const API = "https://alfaaz-backend-hhts.onrender.com/api/alfaaz";
+
 
 function Favorites() {
   const navigate = useNavigate();
@@ -22,70 +23,59 @@ function Favorites() {
   const [loading, setLoading] = useState(true);
 
   const fetchFavorites = async () => {
-    try {
-      const response = await fetch(API);
-      const data = await response.json();
-
-      setFavorites(data.filter((item) => item.favorite));
-    } catch (error) {
-      console.error(error);
-      alert("Could not load favourites.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  try {
+    const data = await apiRequest("/alfaaz");
+    setFavorites(data.filter((item) => item.favorite));
+  } catch (error) {
+    console.error(error);
+    alert("Could not load favourites.");
+  } finally {
+    setLoading(false);
+  }
+};
   useEffect(() => {
     fetchFavorites();
   }, []);
 
   const removeFavorite = async (id) => {
-    try {
-      const response = await fetch(`${API}/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ favorite: false })
-      });
+  try {
+    await apiRequest(`/alfaaz/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ favorite: false })
+    });
 
-      if (!response.ok) throw new Error("Failed");
-
-      setFavorites((prev) =>
-        prev.filter((item) => item._id !== id)
-      );
-
-      setSelected(null);
-    } catch (error) {
-      console.error(error);
-      alert("Could not remove favourite.");
-    }
-  };
-
-  const deleteAlfaaz = async (id) => {
-    const confirmDelete = window.confirm(
-      "Delete this Alfaaz permanently?"
+    setFavorites((prev) =>
+      prev.filter((item) => item._id !== id)
     );
 
-    if (!confirmDelete) return;
+    setSelected(null);
+  } catch (error) {
+    console.error(error);
+    alert("Could not remove favourite.");
+  }
+};
+const deleteAlfaaz = async (id) => {
+  const confirmDelete = window.confirm(
+    "Delete this Alfaaz permanently?"
+  );
 
-    try {
-      const response = await fetch(`${API}/${id}`, {
-        method: "DELETE"
-      });
+  if (!confirmDelete) return;
 
-      if (!response.ok) throw new Error("Failed");
+  try {
+    await apiRequest(`/alfaaz/${id}`, {
+      method: "DELETE"
+    });
 
-      setFavorites((prev) =>
-        prev.filter((item) => item._id !== id)
-      );
+    setFavorites((prev) =>
+      prev.filter((item) => item._id !== id)
+    );
 
-      setSelected(null);
-    } catch (error) {
-      console.error(error);
-      alert("Could not delete Alfaaz.");
-    }
-  };
+    setSelected(null);
+  } catch (error) {
+    console.error(error);
+    alert("Could not delete Alfaaz.");
+  }
+};
 
   const surpriseMe = () => {
     if (!favorites.length) return;
