@@ -8,12 +8,14 @@ const {
   deleteAlfaaz
 } = require("../controllers/alfaazController");
 
+const protect = require("../middleware/authMiddleware");
+
 const router = express.Router();
 
-router.get("/", getAlfaaz);
-router.get("/:id", getSingleAlfaaz);
-router.post("/", createAlfaaz);
-router.put("/:id", updateFavorite);
-router.delete("/:id", deleteAlfaaz);
+router.get("/", protect, getAlfaaz);
+router.get("/:id", protect, getSingleAlfaaz);
+router.post("/", protect, createAlfaaz);
+router.put("/:id", protect, updateFavorite);
+router.delete("/:id", protect, deleteAlfaaz);
 
 module.exports = router;

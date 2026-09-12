@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+
 import Landing from "./Landing";
 import Home from "./Home";
 import Write from "./Write";
@@ -14,13 +16,34 @@ import PrivateWrite from "./PrivateWrite";
 import Profile from "./Profile";
 import Password from "./Password";
 
+function isTokenExpired(token) {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.exp * 1000 < Date.now();
+  } catch {
+    return true;
+  }
+}
+
 function App() {
   const location = useLocation();
-  const token = localStorage.getItem("alfaaz_token");
+  const [authenticated, setAuthenticated] = useState(false);
 
-  if (!token) return <Password />;
+  useEffect(() => {
+    const token = localStorage.getItem("alfaaz_token");
 
-  if (location.pathname === "/") return <Home />;
+    if (!token || isTokenExpired(token)) {
+      localStorage.removeItem("alfaaz_token");
+      setAuthenticated(false);
+      return;
+    }
+
+    setAuthenticated(true);
+  }, [location.pathname]);
+
+  if (!authenticated) return <Password />;
+
+  if (location.pathname === "/") return <Landing />;
   if (location.pathname === "/home") return <Home />;
   if (location.pathname === "/write") return <Write />;
   if (location.pathname === "/alfaaz") return <Alfaaz />;

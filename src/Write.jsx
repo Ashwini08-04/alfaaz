@@ -9,6 +9,7 @@ import {
   Flower2
 } from "lucide-react";
 import "./Write.css";
+import apiRequest from "./api";
 
 const types = ["Poetry", "Shayari", "Note", "Thought", "Letter"];
 
@@ -75,17 +76,10 @@ function Write() {
     try {
       setSaving(true);
 
-      const response = await fetch("https://alfaaz-backend-hhts.onrender.com/api/alfaaz", {
+      await apiRequest("/alfaaz", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
         body: JSON.stringify(form)
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to save Alfaaz");
-      }
 
       localStorage.removeItem("alfaaz_draft");
       setSaved(true);

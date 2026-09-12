@@ -12,8 +12,8 @@ import {
   Trash2
 } from "lucide-react";
 import "./Memories.css";
+import apiRequest from "./api";
 
-const API = "https://alfaaz-backend-hhts.onrender.com/api/memories";
 
 function Memories() {
   const navigate = useNavigate();
@@ -33,23 +33,17 @@ function Memories() {
     image: null
   });
 
-  const fetchMemories = async () => {
-    try {
-      const response = await fetch(API);
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch memories");
-      }
-
-      const data = await response.json();
-      setMemories(data);
-    } catch (error) {
-      console.error(error);
-      alert("Could not load memories.");
-    } finally {
-      setLoading(false);
-    }
-  };
+ const fetchMemories = async () => {
+  try {
+    const data = await apiRequest("/memories");
+    setMemories(data);
+  } catch (error) {
+    console.error(error);
+    alert("Could not load memories.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchMemories();
@@ -115,16 +109,32 @@ function Memories() {
         data.append("image", form.image);
       }
 
-      const response = await fetch(API, {
-        method: "POST",
-        body: data
-      });
+     const token = localStorage.getItem("alfaaz_token");
 
-      if (!response.ok) {
-        throw new Error("Failed to create memory");
-      }
+const response = await fetch(
+  "https://alfaaz-backend-hhts.onrender.com/api/memories",
+  {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    body: data
+  }
+);
 
-      const newMemory = await response.json();
+if (response.status === 401) {
+  localStorage.removeItem("alfaaz_token");
+  window.location.href = "/";
+  return;
+}
+
+if (!response.ok) {
+  throw new Error("Failed to create memory");
+}
+
+const newMemory = await response.json();
+
+
 
       setMemories((prev) => [newMemory, ...prev]);
 
@@ -145,67 +155,51 @@ function Memories() {
     }
   };
 
-  const toggleFavorite = async (id, favorite) => {
-    try {
-      const response = await fetch(`${API}/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          favorite: !favorite
-        })
-      });
+ const toggleFavorite = async (id, favorite) => {
+  try {
+    const updated = await apiRequest(`/memories/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ favorite: !favorite })
+    });
 
-      if (!response.ok) {
-        throw new Error("Failed");
-      }
-
-      const updated = await response.json();
-
-      setMemories((prev) =>
-        prev.map((memory) =>
-          memory._id === id ? updated : memory
-        )
-      );
-
-      setSelectedMemory((prev) =>
-        prev?._id === id ? updated : prev
-      );
-    } catch (error) {
-      console.error(error);
-      alert("Could not update favorite.");
-    }
-  };
-
-  const deleteMemory = async (id) => {
-    const confirmDelete = window.confirm(
-      "Delete this memory permanently?"
+    setMemories((prev) =>
+      prev.map((memory) =>
+        memory._id === id ? updated : memory
+      )
     );
 
-    if (!confirmDelete) return;
+    setSelectedMemory((prev) =>
+      prev?._id === id ? updated : prev
+    );
+  } catch (error) {
+    console.error(error);
+    alert("Could not update favorite.");
+  }
+};
+ const deleteMemory = async (id) => {
+  const confirmDelete = window.confirm(
+    "Delete this memory permanently?"
+  );
 
-    try {
-      const response = await fetch(`${API}/${id}`, {
-        method: "DELETE"
-      });
+  if (!confirmDelete) return;
 
-      if (!response.ok) {
-        throw new Error("Failed");
-      }
+  try {
+    await apiRequest(`/memories/${id}`, {
+      method: "DELETE"
+    });
 
-      setMemories((prev) =>
-        prev.filter((memory) => memory._id !== id)
-      );
+    setMemories((prev) =>
+      prev.filter((memory) => memory._id !== id)
+    );
 
-      if (selectedMemory?._id === id) {
-        setSelectedMemory(null);
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Could not delete memory.");
+    if (selectedMemory?._id === id) {
+      setSelectedMemory(null);
     }
-  };
+  } catch (error) {
+    console.error(error);
+    alert("Could not delete memory.");
+  }
+};
 
   const formatDate = (date) => {
     if (!date) return "A day to remember";

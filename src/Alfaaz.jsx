@@ -11,6 +11,7 @@ import {
   PenLine
 } from "lucide-react";
 import "./Alfaaz.css";
+import apiRequest from "./api";
 
 const filters = ["All", "Poetry", "Shayari", "Note", "Thought", "Letter"];
 
@@ -24,23 +25,16 @@ function Alfaaz() {
   const [randomEntry, setRandomEntry] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch Alfaaz from MongoDB
+  // Fetch Alfaaz from protected API
   const fetchEntries = async () => {
     try {
-      const response = await fetch("https://alfaaz-backend-hhts.onrender.com/api/alfaaz");
+      const data = await apiRequest("/alfaaz");
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch Alfaaz");
-      }
-
-      const data = await response.json();
       setEntries(data);
 
       // Open random Alfaaz when coming from Home Surprise Me
       if (searchParams.get("random") === "true" && data.length) {
-        const random =
-          data[Math.floor(Math.random() * data.length)];
-
+        const random = data[Math.floor(Math.random() * data.length)];
         setRandomEntry(random);
       }
     } catch (error) {
@@ -69,18 +63,10 @@ function Alfaaz() {
 
   const toggleFavorite = async (id, favorite) => {
     try {
-      const response = await fetch(
-        `https://alfaaz-backend-hhts.onrender.com/api/alfaaz/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ favorite: !favorite })
-        }
-      );
-
-      if (!response.ok) throw new Error("Failed");
+      await apiRequest(`/alfaaz/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({ favorite: !favorite })
+      });
 
       setEntries((prev) =>
         prev.map((entry) =>
@@ -109,14 +95,9 @@ function Alfaaz() {
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(
-        `https://alfaaz-backend-hhts.onrender.com/api/alfaaz/${id}`,
-        {
-          method: "DELETE"
-        }
-      );
-
-      if (!response.ok) throw new Error("Failed");
+      await apiRequest(`/alfaaz/${id}`, {
+        method: "DELETE"
+      });
 
       setEntries((prev) =>
         prev.filter((entry) => entry._id !== id)
@@ -277,9 +258,7 @@ function Alfaaz() {
               </p>
             </div>
 
-            <button
-              onClick={() => openEntry(randomEntry)}
-            >
+            <button onClick={() => openEntry(randomEntry)}>
               Read
             </button>
           </section>

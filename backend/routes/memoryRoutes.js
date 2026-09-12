@@ -8,6 +8,8 @@ const {
   deleteMemory
 } = require("../controllers/memoryController");
 
+const protect = require("../middleware/authMiddleware");
+
 const router = express.Router();
 
 const upload = multer({
@@ -31,9 +33,9 @@ const upload = multer({
   }
 });
 
-router.get("/", getMemories);
-router.post("/", upload.single("image"), createMemory);
-router.put("/:id", updateFavorite);
-router.delete("/:id", deleteMemory);
+router.get("/", protect, getMemories);
+router.post("/", protect, upload.single("image"), createMemory);
+router.put("/:id", protect, updateFavorite);
+router.delete("/:id", protect, deleteMemory);
 
 module.exports = router;
