@@ -8,11 +8,11 @@ import {
   LockKeyhole,
   PenLine,
   Save,
-  X
+  X,
+  LogOut
 } from "lucide-react";
 import "./Profile.css";
-
-const API = "https://alfaaz-backend-hhts.onrender.com/api/alfaaz";
+import apiRequest from "./api";
 
 function Profile() {
   const navigate = useNavigate();
@@ -28,10 +28,16 @@ function Profile() {
   const [form, setForm] = useState(profile);
 
   useEffect(() => {
-    fetch(API)
-      .then((res) => res.json())
-      .then((data) => setEntries(data))
-      .catch((err) => console.error(err));
+    const fetchEntries = async () => {
+      try {
+        const data = await apiRequest("/alfaaz");
+        setEntries(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchEntries();
   }, []);
 
   const favorites = entries.filter((item) => item.favorite).length;
@@ -39,6 +45,11 @@ function Profile() {
   const saveProfile = () => {
     setProfile(form);
     setEditing(false);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("alfaaz_token");
+    navigate("/");
   };
 
   return (
@@ -139,6 +150,17 @@ function Profile() {
             <span>
               <strong>Private Space</strong>
               <small>A quieter corner for you</small>
+            </span>
+          </div>
+          →
+        </button>
+
+        <button onClick={logout} className="profile-logout">
+          <div>
+            <LogOut size={18} />
+            <span>
+              <strong>Logout</strong>
+              <small>Leave your Alfaaz space</small>
             </span>
           </div>
           →

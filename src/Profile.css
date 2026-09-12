@@ -347,3 +347,10 @@
     padding: 30px 22px;
   }
 }
+.profile-logout {
+  color: #7b3f3f;
+}
+
+.profile-logout svg {
+  color: #7b3f3f;
+}
