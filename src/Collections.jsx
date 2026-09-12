@@ -13,8 +13,7 @@ import {
   ArrowUpRight
 } from "lucide-react";
 import "./Collections.css";
-
-const API = "https://alfaaz-backend-hhts.onrender.com/api/alfaaz";
+import apiRequest from "./api";
 
 const collectionData = [
   {
@@ -66,16 +65,10 @@ function Collections() {
   useEffect(() => {
     const fetchAlfaaz = async () => {
       try {
-        const response = await fetch(API);
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch");
-        }
-
-        const data = await response.json();
+        const data = await apiRequest("/alfaaz");
         setAlfaaz(data);
       } catch (error) {
-        console.error(error);
+        console.error("Collections error:", error);
       } finally {
         setLoading(false);
       }
@@ -112,7 +105,6 @@ function Collections() {
 
   return (
     <main className="collections-page">
-
       <div className="collections-glow" />
 
       <header className="collections-header">
@@ -136,7 +128,6 @@ function Collections() {
       </header>
 
       <section className="collections-intro">
-
         <div className="collections-icon">
           <BookOpen size={21} strokeWidth={1.2} />
         </div>
@@ -152,11 +143,9 @@ function Collections() {
           <br />
           gathered together in one little space.
         </p>
-
       </section>
 
       <section className="collections-stats">
-
         <div>
           <strong>{alfaaz.length}</strong>
           <span>ALFAAZ</span>
@@ -171,11 +160,9 @@ function Collections() {
           <strong>{totalWords}</strong>
           <span>WORDS</span>
         </div>
-
       </section>
 
       <section className="collections-grid">
-
         {collectionData.map((collection) => {
           const Icon = collection.icon;
           const count = getCount(collection.type);
@@ -183,16 +170,13 @@ function Collections() {
           return (
             <button
               className={`collection-card ${
-                activeType === collection.type
-                  ? "active"
-                  : ""
+                activeType === collection.type ? "active" : ""
               }`}
               key={collection.type}
               onClick={() => openCollection(collection.type)}
             >
               <div className="collection-card-top">
                 <span>{collection.label}</span>
-
                 <ArrowUpRight size={17} />
               </div>
 
@@ -214,7 +198,6 @@ function Collections() {
             </button>
           );
         })}
-
       </section>
 
       {loading && (
@@ -225,12 +208,9 @@ function Collections() {
 
       {activeType && (
         <section className="collection-entries-section">
-
           <div className="entries-heading">
-
             <div>
               <span>YOUR COLLECTION</span>
-
               <h2>{activeType}</h2>
             </div>
 
@@ -242,7 +222,6 @@ function Collections() {
             >
               <X size={17} />
             </button>
-
           </div>
 
           <div className="collection-search">
@@ -273,7 +252,6 @@ function Collections() {
             </div>
           ) : (
             <div className="collection-entries">
-
               {activeEntries.map((item) => (
                 <article
                   className="collection-entry-card"
@@ -288,7 +266,6 @@ function Collections() {
                   <p>{item.content}</p>
 
                   <div className="entry-footer">
-
                     <span>
                       — {item.author || "Ganesh"}
                     </span>
@@ -298,14 +275,11 @@ function Collections() {
                     >
                       Read <ArrowUpRight size={14} />
                     </button>
-
                   </div>
                 </article>
               ))}
-
             </div>
           )}
-
         </section>
       )}
 
@@ -331,7 +305,6 @@ function Collections() {
           }}
         >
           <div className="collection-modal-card">
-
             <button
               className="collection-modal-close"
               onClick={() => setSelected(null)}
@@ -352,11 +325,9 @@ function Collections() {
             <div className="modal-author">
               — {selected.author || "Ganesh"}
             </div>
-
           </div>
         </div>
       )}
-
     </main>
   );
 }
