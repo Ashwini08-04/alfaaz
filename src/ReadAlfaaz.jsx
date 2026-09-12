@@ -8,6 +8,7 @@ import {
   BookOpen
 } from "lucide-react";
 import "./ReadAlfaaz.css";
+import apiRequest from "./api";
 
 function ReadAlfaaz() {
   const navigate = useNavigate();
@@ -27,13 +28,7 @@ function ReadAlfaaz() {
 
     const loadEntry = async () => {
       try {
-        const response = await fetch(
-          `https://alfaaz-backend-hhts.onrender.com/api/alfaaz/${selected._id}`
-        );
-
-        if (!response.ok) throw new Error("Entry not found");
-
-        const data = await response.json();
+        const data = await apiRequest(`/alfaaz/${selected._id}`);
         setEntry(data);
       } catch (error) {
         console.error(error);
@@ -50,22 +45,13 @@ function ReadAlfaaz() {
     if (!entry) return;
 
     try {
-      const response = await fetch(
-        `https://alfaaz-backend-hhts.onrender.com/api/alfaaz/${entry._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            favorite: !entry.favorite
-          })
-        }
-      );
+      const updated = await apiRequest(`/alfaaz/${entry._id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          favorite: !entry.favorite
+        })
+      });
 
-      if (!response.ok) throw new Error("Failed");
-
-      const updated = await response.json();
       setEntry(updated);
 
       localStorage.setItem(
@@ -92,7 +78,7 @@ function ReadAlfaaz() {
         await navigator.clipboard.writeText(text);
         alert("Alfaaz copied ✨");
       }
-    } catch (error) {
+    } catch {
       console.log("Share cancelled");
     }
   };
