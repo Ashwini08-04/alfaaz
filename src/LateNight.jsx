@@ -11,8 +11,8 @@ import {
   Clock3
 } from "lucide-react";
 import "./LateNight.css";
+import apiRequest from "./api";
 
-const API = "https://alfaaz-backend-hhts.onrender.com/api/alfaaz";
 
 function LateNight() {
   const navigate = useNavigate();
@@ -30,20 +30,16 @@ function LateNight() {
   });
 
   const fetchThoughts = async () => {
-    try {
-      const response = await fetch(API);
-      if (!response.ok) throw new Error("Failed");
-
-      const data = await response.json();
-      setThoughts(data.filter((item) => item.lateNight));
-    } catch (error) {
-      console.error(error);
-      alert("Could not load late night thoughts.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  try {
+    const data = await apiRequest("/alfaaz");
+    setThoughts(data.filter((item) => item.lateNight));
+  } catch (error) {
+    console.error(error);
+    alert("Could not load late night thoughts.");
+  } finally {
+    setLoading(false);
+  }
+};
   useEffect(() => {
     fetchThoughts();
   }, []);
@@ -63,64 +59,37 @@ function LateNight() {
     });
   };
 
-  const addThought = async (e) => {
-    e.preventDefault();
+  const newThought = await apiRequest("/alfaaz", {
+  method: "POST",
+  body: JSON.stringify({
+    type: "Thought",
+    title: form.title,
+    content: form.content,
+    lateNight: true
+  })
+});
 
-    if (!form.title.trim() || !form.content.trim()) {
-      alert("Give your thought a title and some words.");
-      return;
-    }
+setThoughts((prev) => [newThought, ...prev]);
+closeForm();
 
-    try {
-      setSaving(true);
+ const deleteThought = async (id) => {
+  if (!window.confirm("Delete this thought permanently?")) return;
 
-      const response = await fetch(API, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          type: "Thought",
-          title: form.title,
-          content: form.content,
-          lateNight: true
-        })
-      });
+  try {
+    await apiRequest(`/alfaaz/${id}`, {
+      method: "DELETE"
+    });
 
-      if (!response.ok) throw new Error("Failed");
+    setThoughts((prev) =>
+      prev.filter((item) => item._id !== id)
+    );
 
-      const newThought = await response.json();
-
-      setThoughts((prev) => [newThought, ...prev]);
-      closeForm();
-    } catch (error) {
-      console.error(error);
-      alert("Could not save thought.");
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const deleteThought = async (id) => {
-    if (!window.confirm("Delete this thought permanently?")) return;
-
-    try {
-      const response = await fetch(`${API}/${id}`, {
-        method: "DELETE"
-      });
-
-      if (!response.ok) throw new Error("Failed");
-
-      setThoughts((prev) =>
-        prev.filter((item) => item._id !== id)
-      );
-
-      setSelected(null);
-    } catch (error) {
-      console.error(error);
-      alert("Could not delete thought.");
-    }
-  };
+    setSelected(null);
+  } catch (error) {
+    console.error(error);
+    alert("Could not delete thought.");
+  }
+};
 
   const surpriseMe = () => {
     if (!thoughts.length) return;
