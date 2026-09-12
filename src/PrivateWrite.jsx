@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, LockKeyhole, Send } from "lucide-react";
 import "./PrivateWrite.css";
-
-const API = "https://alfaaz-backend-hhts.onrender.com/api/private-alfaaz";
+import apiRequest from "./api";
 
 function PrivateWrite() {
   const navigate = useNavigate();
@@ -29,17 +28,10 @@ function PrivateWrite() {
       setSaving(true);
       setMessage("");
 
-      const response = await fetch(API, {
+      await apiRequest("/private-alfaaz", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
         body: JSON.stringify(form)
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to save");
-      }
 
       setForm({
         type: "Thought",
