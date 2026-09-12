@@ -6,21 +6,31 @@ const apiRequest = async (endpoint, options = {}) => {
   const res = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      ...(options.body instanceof FormData
+        ? {}
+        : { "Content-Type": "application/json" }),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers
     }
   });
 
-  const data = await res.json();
+  let data = {};
+
+  try {
+    data = await res.json();
+  } catch {
+    data = {};
+  }
 
   if (res.status === 401) {
     localStorage.removeItem("alfaaz_token");
     window.location.href = "/";
-    return;
+    throw new Error("Session expired. Please login again.");
   }
 
-  if (!res.ok) throw new Error(data.message || "Request failed");
+  if (!res.ok) {
+    throw new Error(data.message || "Request failed");
+  }
 
   return data;
 };

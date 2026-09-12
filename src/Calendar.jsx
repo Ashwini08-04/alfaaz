@@ -10,9 +10,7 @@ import {
   X
 } from "lucide-react";
 import "./Calendar.css";
-
-const ALFAAZ_API = "https://alfaaz-backend-hhts.onrender.com/api/alfaaz";
-const MEMORY_API = "https://alfaaz-backend-hhts.onrender.com/api/memories";
+import apiRequest from "./api";
 
 function Calendar() {
   const navigate = useNavigate();
@@ -36,13 +34,13 @@ function Calendar() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [alfaazRes, memoryRes] = await Promise.all([
-          fetch(ALFAAZ_API),
-          fetch(MEMORY_API)
+        const [alfaazData, memoryData] = await Promise.all([
+          apiRequest("/alfaaz"),
+          apiRequest("/memories")
         ]);
 
-        setAlfaaz(await alfaazRes.json());
-        setMemories(await memoryRes.json());
+        setAlfaaz(alfaazData);
+        setMemories(memoryData);
       } catch (error) {
         console.error("Calendar error:", error);
       } finally {
@@ -89,9 +87,7 @@ function Calendar() {
   };
 
   const selectedData = selectedDate
-    ? getDayData(
-        Number(selectedDate.split("-")[2])
-      )
+    ? getDayData(Number(selectedDate.split("-")[2]))
     : null;
 
   const calendarDays = [
@@ -106,40 +102,39 @@ function Calendar() {
 
   return (
     <main className="calendar-page">
-
       {/* Decorative teddy */}
       <div className="calendar-teddy">
-  <div className="teddy-ear teddy-ear-left">
-    <span />
-  </div>
+        <div className="teddy-ear teddy-ear-left">
+          <span />
+        </div>
 
-  <div className="teddy-ear teddy-ear-right">
-    <span />
-  </div>
+        <div className="teddy-ear teddy-ear-right">
+          <span />
+        </div>
 
-  <div className="teddy-head">
-    <div className="teddy-eye teddy-eye-left" />
-    <div className="teddy-eye teddy-eye-right" />
+        <div className="teddy-head">
+          <div className="teddy-eye teddy-eye-left" />
+          <div className="teddy-eye teddy-eye-right" />
 
-    <div className="teddy-cheek teddy-cheek-left" />
-    <div className="teddy-cheek teddy-cheek-right" />
+          <div className="teddy-cheek teddy-cheek-left" />
+          <div className="teddy-cheek teddy-cheek-right" />
 
-    <div className="teddy-muzzle">
-      <div className="teddy-nose" />
-      <div className="teddy-mouth" />
-    </div>
-  </div>
+          <div className="teddy-muzzle">
+            <div className="teddy-nose" />
+            <div className="teddy-mouth" />
+          </div>
+        </div>
 
-  <div className="teddy-body">
-    <div className="teddy-belly" />
-  </div>
+        <div className="teddy-body">
+          <div className="teddy-belly" />
+        </div>
 
-  <div className="teddy-arm teddy-arm-left" />
-  <div className="teddy-arm teddy-arm-right" />
+        <div className="teddy-arm teddy-arm-left" />
+        <div className="teddy-arm teddy-arm-right" />
 
-  <div className="teddy-foot teddy-foot-left" />
-  <div className="teddy-foot teddy-foot-right" />
-</div>
+        <div className="teddy-foot teddy-foot-left" />
+        <div className="teddy-foot teddy-foot-right" />
+      </div>
 
       <div className="calendar-glow" />
 
@@ -184,11 +179,8 @@ function Calendar() {
       </section>
 
       <section className="calendar-wrap">
-
         <div className="calendar-card">
-
           <div className="calendar-month-head">
-
             <button onClick={previousMonth}>
               <ChevronLeft size={19} />
             </button>
@@ -201,7 +193,6 @@ function Calendar() {
             <button onClick={nextMonth}>
               <ChevronRight size={19} />
             </button>
-
           </div>
 
           <div className="calendar-weekdays">
@@ -213,9 +204,7 @@ function Calendar() {
           </div>
 
           <div className="calendar-days">
-
             {calendarDays.map((day, index) => {
-
               if (!day) {
                 return (
                   <div
@@ -258,7 +247,6 @@ function Calendar() {
                 </button>
               );
             })}
-
           </div>
 
           <div className="calendar-legend">
@@ -272,9 +260,7 @@ function Calendar() {
               Memories
             </span>
           </div>
-
         </div>
-
       </section>
 
       {loading && (
@@ -293,7 +279,6 @@ function Calendar() {
           }}
         >
           <div className="calendar-day-modal">
-
             <button
               className="calendar-modal-close"
               onClick={() => setSelectedDate(null)}
@@ -323,7 +308,6 @@ function Calendar() {
               </div>
             ) : (
               <div className="calendar-entries">
-
                 {selectedData.words.map((item) => (
                   <article
                     className="calendar-entry"
@@ -353,10 +337,8 @@ function Calendar() {
                     </div>
                   </article>
                 ))}
-
               </div>
             )}
-
           </div>
         </div>
       )}
@@ -372,7 +354,6 @@ function Calendar() {
 
         <span>✦</span>
       </footer>
-
     </main>
   );
 }
